@@ -1,0 +1,18 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-display: 'Inter', 'sans-serif';
+  --color-primaria: #3b82f6;
+  --color-secundaria: #f3f4f6;
+  --color-texto: #1f2937;
+  --color-sucesso: #10b981;
+  --color-erro: #ef4444;
+  --color-dica: #757575;
+}
+@utility gradiente-primario {
+  background: linear-gradient(
+    180deg,
+    var(--color-primaria) 0%,
+    var(--color-secundaria) 100%
+  );
+}
