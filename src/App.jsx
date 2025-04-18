@@ -1,27 +1,81 @@
+import { useState } from 'react';
 import { Fieldset } from './componentes/fieldset';
 
 function App() {
+  const [erros, setErros] = useState({});
+
+  // function atualizaErros(nomeCampo, valorCampo) {
+  //   setErros((prevState) => ({
+  //     ...prevState,
+  //     [nomeCampo]: valorCampo,
+  //   }));
+  // }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    const elementos = event.target.elements;
+
+    const cep = elementos.cep.value;
+    const estado = elementos.estado.value;
+    const cidade = elementos.cidade.value;
+    // const bairro = elementos.bairro.value;
+    // const rua = elementos.rua.value;
+    // const numero = elementos.numero.value;
+    // const complemento = elementos.complemento.value;
+    // const referencia = elementos.referencia.value;
+    // const aceitarTermosCadastro = elementos.aceitarTermosCadastro.checked;
+
+    setErros({});
+    if (cep.length <= 7 || cep.length > 8) {
+      // if (cep.length != 8) { Verifica se o CEP quantidade 'diferente' de 8 dígitos3
+      // atualizaErros('cep', 'O CEP deve conter 8 dígitos');
+      setErros((prevState) => ({
+        ...prevState,
+        cep: 'O CEP deve conter 8 dígitos',
+      }));
+    }
+
+    if (estado.length != 2) {
+      // atualizaErros('estado', 'O Estado deve conter 2 dígitos (Maiúsculos)');
+      setErros((prevState) => ({
+        ...prevState,
+        estado: 'O Estado deve conter 2 dígitos (Maiúsculos)',
+      }));
+    }
+
+    if (cidade === '') {
+      // atualizaErros('estado', 'O Estado deve conter 2 dígitos (Maiúsculos)');
+      setErros((prevState) => ({
+        ...prevState,
+        cidade: 'Campo obrigatório',
+      }));
+    }
+  }
+
   return (
     <section className='gradiente-primario flex flex-col items-center justify-center h-screen w-screen px-16 py-64 gap-16'>
       <h1 className='font-bold text-5xl'>Cadastro de Endereço</h1>
-      <form className='flex flex-col gap-16 items-center justify-center w-full'>
+      <form
+        className='flex flex-col gap-16 items-center justify-center w-full'
+        onSubmit={handleSubmit}
+      >
         <div className='flex flex-wrap justify-center gap-8 w-full'>
           <Fieldset>
             <label htmlFor='cep'>CEP *</label>
             <Fieldset.Input id='cep' name='cep' placeholder='99999-999' />
-            <Fieldset.Error></Fieldset.Error>
+            <Fieldset.Error>{erros.cep}</Fieldset.Error>
           </Fieldset>
 
           <Fieldset>
             <label htmlFor='estado'>Estado *</label>
             <Fieldset.Input id='estado' name='estado' placeholder='RS' />
-            <Fieldset.Error></Fieldset.Error>
+            <Fieldset.Error>{erros.estado}</Fieldset.Error>
           </Fieldset>
 
           <Fieldset>
             <label htmlFor='cidade'>Cidade *</label>
             <Fieldset.Input id='cidade' name='cidade' placeholder='Porto Alegre' />
-            <Fieldset.Error></Fieldset.Error>
+            <Fieldset.Error>{erros.cidade}</Fieldset.Error>
           </Fieldset>
 
           <Fieldset>
